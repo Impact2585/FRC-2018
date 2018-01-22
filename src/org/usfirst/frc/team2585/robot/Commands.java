@@ -59,14 +59,29 @@ public class Commands {
 	
 	
 	/**
-	 * Autonomous command that that drives the robot forward and then turns left and continues driving forward
+	 * Autonomous command that drives according to its position and the side of its switch
 	 */
 	public class Main implements AutonomousCommand {
+		private static final int timeToDriveStraight = 3100;
 		
-		private void runFromMiddle() {
+		private void runFromMiddleToLeft(long timeElapsed) {
 		}
 		
-		private void runFromSide() {
+		private void runFromMiddleToRight(long timeElapsed) {
+		}
+		
+		private void runFromLeftSide(long timeElapsed) {
+		}
+		
+		private void runFromRightSide(long timeElapsed) {
+		}
+		
+		private void runStraight(long timeElapsed) {
+			if (timeElapsed < timeToDriveStraight) {
+				driveForward();
+			} else {
+				stop();
+			}
 		}
 		
 		/* (non-Javadoc)
@@ -74,16 +89,32 @@ public class Commands {
 		 */
 		@Override
 		public void execute(long timeElapsed) {
-			if (location == 2) {
-				runFromMiddle();
+			if (location == 2 && gameData.charAt(0) == 'R') {
+				//if in the middle with the switch on the right, try to deposit a cube
+				runFromMiddleToRight(timeElapsed);
+				
+			} else if (location == 2) {
+				//if in middle with switch on left, try to deposit a cube
+				runFromMiddleToLeft(timeElapsed);
+				
+			} else if (location == 1 && gameData.charAt(0) == 'L'){
+
+				//if on left side with switch on left side, try to deposit a cube
+				runFromLeftSide(timeElapsed);
+				
+			} else if (location == 3 && gameData.charAt(0) == 'R'){
+				//if on right side with switch on right side, try to deposit a cube
+				runFromRightSide(timeElapsed);
+				
 			} else {
-				runFromSide();
+				//else, run straight
+				runStraight(timeElapsed);
 			}
 		}
 	}
 	
 	/**
-	 * Autonomous command that drives the robot forward and then turns right and drives forward again
+	 * Autonomous command that drives straight no matter what
 	 */
 	public class Straight implements AutonomousCommand {
 		private static final int timeToDriveStraight = 3100;
@@ -100,6 +131,9 @@ public class Commands {
 		}
 	}
 	
+	/**
+	 * Autonomous command that does nothing
+	 */
 	public class None implements AutonomousCommand {
 		@Override
 		public void execute(long timeElapsed) {
