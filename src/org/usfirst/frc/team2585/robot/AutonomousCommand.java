@@ -7,5 +7,5 @@ public interface AutonomousCommand {
 	/**
 	 * @param timeElapsed time passed since auton started
 	 */
-	public void execute(long timeElapsed);
+	public void execute(double distanceTraveled);
 }

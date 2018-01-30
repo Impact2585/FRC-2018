@@ -63,48 +63,45 @@ public class Commands {
 	 */
 	public class Main implements AutonomousCommand {
 		
-		private static final int timeToDriveStraight = 3100;
+		private static final double crossLine = 15;
+		private static final double reachSwitchSide = 4;
 		
-		private void runStraight(long timeElapsed) {
-			if (timeElapsed < timeToDriveStraight) {
+		private void runStraight(double distanceTraveled) {
+			if (distanceTraveled < crossLine) {
 				driveForward();
 			} else {
 				stop();
 			}
 		}
 		
-		private void runFromMiddle(long timeElapsed){
-			if(gameData.length() < 1){
-				runStraight(timeElapsed);
-			} else if(gameData.charAt(0) == 'L'){
+		private void runFromMiddle(double distanceTraveled){
+			if(gameData.charAt(0) == 'L'){
 				
 			} else if(gameData.charAt(0) == 'R'){
 				
 			}
 		}
-		private void runFromSide(long timeElapsed){
-			if(gameData.length() < 1){
-				runStraight(timeElapsed);
-			} if(gameData.charAt(0) == 'L'){
+		private void runFromSide(double distanceTraveled){
+			if(gameData.charAt(0) == 'L' && location == 1){
 
-			} else if(gameData.charAt(0) == 'R'){
+			} else if(gameData.charAt(0) == 'R' && location == 3){
 				
 			} else {
-				runStraight(timeElapsed);
+				runStraight(distanceTraveled);
 			}
 		}
 		
 		/* (non-Javadoc)
-		 * @see org.usfirst.frc.team2585.AutonomousCommand#execute(long)
+		 * @see org.usfirst.frc.team2585.AutonomousCommand#execute(double)
 		 */
 		@Override
-		public void execute(long timeElapsed) {
+		public void execute(double distanceTraveled) {
 			if (location == 1 || location == 3) {
-				runFromSide(timeElapsed);
+				runFromSide(distanceTraveled);
 			} else if (location == 2) {
-				runFromMiddle(timeElapsed);
+				runFromMiddle(distanceTraveled);
 			} else {
-				runStraight(timeElapsed);
+				runStraight(distanceTraveled);
 			}
 		}
 	}
@@ -113,13 +110,13 @@ public class Commands {
 	 * Autonomous command that drives straight no matter what
 	 */
 	public class Straight implements AutonomousCommand {
-		private static final int timeToDriveStraight = 3100;
+		private static final double crossLine = 457;
 		/* (non-Javadoc)
-		 * @see org.usfirst.frc.team2585.AutonomousCommand#execute(long)
+		 * @see org.usfirst.frc.team2585.AutonomousCommand#execute(double)
 		 */
 		@Override
-		public void execute(long timeElapsed) {
-			if (timeElapsed < timeToDriveStraight) {
+		public void execute(double distanceTraveled) {
+			if (distanceTraveled < crossLine) {
 				driveForward();
 			} else {
 				stop();
@@ -131,8 +128,11 @@ public class Commands {
 	 * Autonomous command that does nothing
 	 */
 	public class None implements AutonomousCommand {
+		/* (non-Javadoc)
+		 * @see org.usfirst.frc.team2585.robot.AutonomousCommand#execute(double)
+		 */
 		@Override
-		public void execute(long timeElapsed) {
+		public void execute(double distanceTraveled) {
 			stop();
 		}
 	}
