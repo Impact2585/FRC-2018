@@ -74,4 +74,12 @@ public class XBoxInput extends InputMethod {
 	public double rotationAmount() {
 		return controller.getRawAxis(XboxConstants.RIGHT_X_AXIS);
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.usfirst.frc.team2585.input.InputMethod#shouldBoost()
+	 */
+	@Override
+	public boolean shouldBoost(){
+		return controller.getRawButton(XboxConstants.LEFT_BUMPER);
+	}
 }

@@ -53,5 +53,12 @@ public abstract class InputMethod {
 		return 0;
 	}
 	
+	/**
+	 * @return whether the robot move forward/backwards drive faster
+	 */
+	public boolean shouldBoost() {
+		return false;
+	}
+	
 
 }
