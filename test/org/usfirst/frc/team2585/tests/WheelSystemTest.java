@@ -16,6 +16,7 @@ public class WheelSystemTest {
 	
 	private double forwardInput;
 	private double rotationInput;
+	private boolean shouldBoost;
 	
 	private double forwardOutput;
 	private double rotationOutput;
@@ -282,6 +283,14 @@ public class WheelSystemTest {
 		@Override
 		public double rotationAmount() {
 			return rotationInput;
+		}
+		
+		/* (non-Javadoc)
+		 * @see org.usfirst.frc.team2585.input.InputMethod#shouldBoost()
+		 */
+		@Override
+		public boolean shouldBoost() {
+			return shouldBoost;
 		}
 	}
 	
