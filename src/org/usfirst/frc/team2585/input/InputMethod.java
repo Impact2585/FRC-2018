@@ -54,11 +54,17 @@ public abstract class InputMethod {
 	}
 	
 	/**
-	 * @return whether the robot gyro should recalibrate
+	 * @return whether the drive train should move faster(boost)
 	 */
-	public boolean shouldCalibrate() {
+	public boolean shouldBoost() {
 		return false;
 	}
 	
+	/**
+	 * @return whether the robot gyro should recalibrate
+	 */
+	public boolean shouldCalibrate() {
+	 		return false;
+	 	}
 
 }
