@@ -47,6 +47,7 @@ public class WheelSystem extends RobotSystem {
 		gyro = new ADXRS450_Gyro();
 		targetAngle = getGyroAngle();
 		ultra = new Ultrasonic(1,1);
+		ultra.setAutomaticMode(true);
 	}
 	
 	/**
@@ -191,10 +192,6 @@ public class WheelSystem extends RobotSystem {
 	public void resetGyro() {
 		gyro.reset();
 		targetAngle = gyro.getAngle();
-	}
-	
-	public void robotInit() {
-		ultra.setAutomaticMode(true); // turns on automatic mode
 	}
 
 	public void ultrasonicSample() {
