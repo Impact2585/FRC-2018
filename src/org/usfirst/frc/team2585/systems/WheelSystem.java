@@ -7,6 +7,7 @@ import org.usfirst.frc.team2585.robot.RobotMap;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 /**
  * This system controls the drivetrain of the robot
@@ -16,6 +17,8 @@ public class WheelSystem extends RobotSystem {
 	private RampedSpeedController leftDrive;
 	
 	private ADXRS450_Gyro gyro;
+	
+	private Ultrasonic ultra;
 	
 	private double targetAngle = 0.0;
 	
@@ -43,6 +46,8 @@ public class WheelSystem extends RobotSystem {
 		
 		gyro = new ADXRS450_Gyro();
 		targetAngle = getGyroAngle();
+		ultra = new Ultrasonic(1,1);
+		ultra.setAutomaticMode(true);
 	}
 	
 	/**
@@ -188,6 +193,11 @@ public class WheelSystem extends RobotSystem {
 		gyro.reset();
 		targetAngle = gyro.getAngle();
 	}
+
+	public void ultrasonicSample() {
+		double range = ultra.getRangeMM(); // reads the range on the ultrasonic sensor
+	}
+
 	
 	/* (non-Javadoc)
 	 * @see org.usfirst.frc.team2585.systems.RobotSystem#stop()
