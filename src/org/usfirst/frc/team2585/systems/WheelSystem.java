@@ -195,7 +195,7 @@ public class WheelSystem extends RobotSystem {
 	}
 
 	public void ultrasonicSample() {
-		double range = ultra.getRangeInches(); // reads the range on the ultrasonic sensor
+		double range = ultra.getRangeMM(); // reads the range on the ultrasonic sensor
 	}
 
 	
