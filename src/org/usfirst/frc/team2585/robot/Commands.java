@@ -56,6 +56,10 @@ public class Commands {
 		return turnToAngle(0.0);
 	}
 	
+	private static boolean isCloseToObstacle() {
+		return drivetrain.getRangeMM() < 85; // 75 is bumper width
+	}
+	
 	/**
 	 * Set the forward movement and rotation to 0
 	 */
@@ -96,6 +100,9 @@ public class Commands {
 		private boolean onLeftWithSwitch = false; 
 		private boolean onRightWithSwitch = false;
 		
+		private boolean isExpectingWall = false;
+		private boolean isAutonStopped = false;
+		
 		private int tasksComplete = 0;
 		
 		/* (non-Javadoc)
@@ -118,6 +125,14 @@ public class Commands {
 			shouldResetTime = true;
 			stop();
 			SmartDashboard.putNumber("AUTO TASK NUMBER", tasksComplete);
+		}
+		
+		/**
+		 * Stop the auton completely
+		 */
+		private void endAuton() {
+			stop();
+			isAutonStopped = true;
 		}
 		
 		/**
@@ -197,6 +212,9 @@ public class Commands {
 					
 				case 5: // MOVE UP TO SWITCH
 					if (timeElapsed < middleDistanceToSwitch/2) {
+						if (timeElapsed > middleDistanceToSwitch/4) {
+							isExpectingWall = true;
+						}
 						driveForward();
 					} else {
 						markTaskComplete();
@@ -249,7 +267,10 @@ public class Commands {
 					
 				case 2: // MOVE INWARDS TOWARDS SWITCH
 					SmartDashboard.putString("AUTO STATUS", "MOVE FORWARD AGAIN");
-					if(timeElapsed < distanceInToSwitchFromSide){
+					if (timeElapsed < distanceInToSwitchFromSide){
+						if (timeElapsed > distanceInToSwitchFromSide/2) {
+							isExpectingWall = true;
+						}
 						driveForward();
 					} else {
 						markTaskComplete();
@@ -281,6 +302,18 @@ public class Commands {
 		public boolean execute(long timeElapsed) {
 			SmartDashboard.putString("AUTO EXECUTOR", "MAIN");
 			shouldResetTime = false;
+			if (isAutonStopped) {
+				return false;
+			}
+			
+			if (isCloseToObstacle()) {
+				if (isExpectingWall) {
+					markTaskComplete();
+				} else {
+					endAuton();
+				}
+			}
+			
 			if (location == 1 || location == 3) {
 				runFromSide(timeElapsed);
 			} else if (location == 2) {
